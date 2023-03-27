@@ -30,7 +30,7 @@ struct SymTable
 {
     /* The address of the first SymTableNode */
     struct SymTableNode *psFirstNode;
-};
+}
 
 /*--------------------------------------------------------------------*/
 
