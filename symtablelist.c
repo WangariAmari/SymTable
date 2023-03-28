@@ -199,7 +199,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey)
     psCurrentNode = psNextNode) 
     {
         if (psCurrentNode->pcKey == pcKey) {
-            return psCurrentNode->pvValue;
+            return (void *) psCurrentNode->pvValue;
         }
         psNextNode = psCurrentNode->psNextNode;
     }
