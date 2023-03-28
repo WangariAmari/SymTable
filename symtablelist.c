@@ -21,7 +21,7 @@ struct SymTableNode
 
     /* The address of the next SymTableNode */
     struct SymTableNode *psNextNode;
-}
+};
 
 /*--------------------------------------------------------------------*/
 
@@ -74,7 +74,7 @@ void SymTable_free(SymTable_T oSymTable)
         free(psCurrentNode);
     }
 
-    free oSymTable;
+    free (oSymTable);
 }
 
 /*--------------------------------------------------------------------*/
@@ -215,7 +215,6 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey)
     /* keep track of a prev pter, initially null*/
     /* two cases, rming 1st node vs any other node */
     /* we don't just free node, also key */
-    const void *pcKey;
     struct SymTableNode *psNextNode;
 
     assert(oSymTable != NULL);
