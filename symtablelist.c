@@ -82,18 +82,7 @@ void SymTable_free(SymTable_T oSymTable)
 
 size_t SymTable_getLength(SymTable_T oSymTable)
 {
-   /* struct SymTableNode *psCurrentNode;
-    struct SymTableNode *psNextNode; */
-
     assert(oSymTable != NULL);
-
-   /* for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
-    psCurrentNode = psNextNode) 
-    {
-        keyCount++;
-        psNextNode = psCurrentNode->psNextNode;
-    }
-    */
 
     return oSymTable->length;
 }
@@ -111,8 +100,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void
 {
     struct SymTableNode *psNewNode;
 
-    /* defensive copy */
-
     assert (oSymTable != NULL);
     assert (pcKey != NULL);
 
@@ -120,6 +107,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void
         return 0;
     }
 
+    /* defensive copy */
     psNewNode = (struct SymTableNode*)malloc(sizeof(struct SymTableNode));
 
     if (psNewNode == NULL) 
