@@ -198,7 +198,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey)
     for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
     psCurrentNode = psNextNode) 
     {
-        if (psCurrentNode->pcKey == pcKey) {
+        if (strcmp(psCurrentNode->pcKey, pcKey) == 0) {
             return (void *) psCurrentNode->pvValue;
         }
         psNextNode = psCurrentNode->psNextNode;
