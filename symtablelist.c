@@ -115,6 +115,11 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void
     /* defensive copy */
 
     assert (oSymTable != NULL);
+    assert (pcKey != NULL);
+
+    if (SymTable_contains(oSymTable, pcKey)) {
+        return 0;
+    }
 
     psNewNode = (struct SymTableNode*)malloc(sizeof(struct SymTableNode));
 
@@ -123,7 +128,15 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void
         return 0;
     }
 
-    psNewNode->pcKey = pcKey;
+    psNewNode->pcKey = (char*)malloc(strlen(pcKey) + 1);
+
+    if (psNewNode->pcKey == NULL) 
+    {
+        free (psNewNode);
+        return 0;
+    }
+
+    strcpy((char *)psNewNode->pcKey, pcKey);
     psNewNode->pvValue = pvValue;
     psNewNode->psNextNode = oSymTable->psFirstNode;
     oSymTable->psFirstNode = psNewNode;
