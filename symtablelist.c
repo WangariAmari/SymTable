@@ -15,8 +15,10 @@ to form a list. */
 
 struct SymTableNode
 {
-    /* The binding. */
+    /* The binding's key. */
     const char *pcKey;
+    
+    /* The value associated with the binding's key. */
     const void *pvValue; 
 
     /* The address of the next SymTableNode */
@@ -102,6 +104,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void
 
     assert (oSymTable != NULL);
     assert (pcKey != NULL);
+    assert (pvValue != NULL);
 
     if (SymTable_contains(oSymTable, pcKey)) {
         return 0;
@@ -145,6 +148,7 @@ void *pvValue)
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
+    assert (pvValue != NULL);
 
     for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
     psCurrentNode = psNextNode) 
@@ -171,6 +175,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey)
     struct SymTableNode *psNextNode;
 
     assert(oSymTable != NULL);
+    assert (pcKey != NULL);
 
     for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
     psCurrentNode = psNextNode) 
@@ -195,6 +200,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey)
     struct SymTableNode *psNextNode;
 
     assert(oSymTable != NULL);
+    assert (pcKey != NULL);
 
     for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
     psCurrentNode = psNextNode) 
@@ -260,7 +266,8 @@ void SymTable_map(SymTable_T oSymTable, void (*pfApply)(const char
     struct SymTableNode *psCurrentNode;
 
     assert(oSymTable != NULL);
-    assert(pfApply != NULL);
+    assert(pfApply != NULL);    
+    assert (pvExtra != NULL);
 
     for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
     psCurrentNode = psCurrentNode->psNextNode) 

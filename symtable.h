@@ -7,10 +7,11 @@
 #define SYMTABLE_INCLUDED
 #include <stddef.h>
 
-/* A Symtable_T is is an unordered collection of bindings. A binding 
+/* A SymTable is an unordered collection of bindings. A binding 
 consists of a key and a value. */
-
 struct SymTable;
+
+/* A SymtTble_T is an alias for SymTable for encapsulation purposes. */
 typedef struct SymTable *SymTable_T;
 
 /*--------------------------------------------------------------------*/
