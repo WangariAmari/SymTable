@@ -104,7 +104,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void
 
     assert (oSymTable != NULL);
     assert (pcKey != NULL);
-    assert (pvValue != NULL);
 
     if (SymTable_contains(oSymTable, pcKey)) {
         return 0;
@@ -148,7 +147,6 @@ void *pvValue)
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
-    assert (pvValue != NULL);
 
     for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
     psCurrentNode = psNextNode) 
@@ -267,7 +265,6 @@ void SymTable_map(SymTable_T oSymTable, void (*pfApply)(const char
 
     assert(oSymTable != NULL);
     assert(pfApply != NULL);    
-    assert (pvExtra != NULL);
 
     for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
     psCurrentNode = psCurrentNode->psNextNode) 
