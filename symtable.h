@@ -10,6 +10,7 @@
 /* A Symtable_T is is an unordered collection of bindings. A binding 
 consists of a key and a value. */
 
+struct SymTable;
 typedef struct SymTable *SymTable_T;
 
 /*--------------------------------------------------------------------*/
