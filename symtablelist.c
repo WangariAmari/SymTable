@@ -31,6 +31,9 @@ struct SymTable
 {
     /* The address of the first SymTableNode */
     struct SymTableNode *psFirstNode;
+
+    /* number of nodes in symtable */
+    size_t length;
 };
 
 /*--------------------------------------------------------------------*/
@@ -48,10 +51,6 @@ SymTable_T SymTable_new(void)
     {
         return NULL;
     }
-
-    /* oSymTable->psFirstNode->pcKey = '\0';
-    oSymTable->psFirstNode->pvValue = NULL;
-    oSymTable->psFirstNode->psNextNode = NULL; */
 
     return oSymTable;
 }
@@ -83,20 +82,20 @@ void SymTable_free(SymTable_T oSymTable)
 
 size_t SymTable_getLength(SymTable_T oSymTable)
 {
-    size_t keyCount = 0;
-    struct SymTableNode *psCurrentNode;
-    struct SymTableNode *psNextNode;
+   /* struct SymTableNode *psCurrentNode;
+    struct SymTableNode *psNextNode; */
 
     assert(oSymTable != NULL);
 
-    for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
+   /* for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
     psCurrentNode = psNextNode) 
     {
         keyCount++;
         psNextNode = psCurrentNode->psNextNode;
     }
-    
-    return keyCount;
+    */
+
+    return oSymTable->length;
 }
 
 /*--------------------------------------------------------------------*/
@@ -140,6 +139,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void
     psNewNode->pvValue = pvValue;
     psNewNode->psNextNode = oSymTable->psFirstNode;
     oSymTable->psFirstNode = psNewNode;
+    oSymTable->length++;
     return 1;
 }
 
@@ -187,7 +187,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey)
     for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
     psCurrentNode = psNextNode) 
     {
-        if (psCurrentNode->pcKey == pcKey) {
+        if (strcmp(psCurrentNode->pcKey, pcKey) == 0) {
             return 1;
         }
         psNextNode = psCurrentNode->psNextNode;
@@ -231,17 +231,31 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey)
     /* keep track of a prev pter, initially null*/
     /* two cases, rming 1st node vs any other node */
     /* we don't just free node, also key */
-    struct SymTableNode *psNextNode;
+    struct SymTableNode *psCurrentNode;
+    struct SymTableNode *psPrevNode = NULL;
 
     assert(oSymTable != NULL);
-    assert(oSymTable->psFirstNode != NULL);
+    assert(pcKey != NULL);
 
-    pcKey = oSymTable->psFirstNode->pcKey;
-    psNextNode = oSymTable->psFirstNode->psNextNode;
-    free(oSymTable->psFirstNode);
-    oSymTable->psFirstNode = psNextNode;
-    return (void*) pcKey;
-    
+    for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
+    psCurrentNode = psCurrentNode->psNextNode) 
+    {
+        if (strcmp(psCurrentNode->pcKey, pcKey) == 0) {
+            void *oldval = (void *) psCurrentNode->pvValue;
+            /* relink to remove current node */
+            if (psPrevNode == NULL) {
+                oSymTable->psFirstNode = psCurrentNode->psNextNode;
+            }
+            else {
+                psPrevNode->psNextNode = psCurrentNode->psNextNode;
+            }
+            free ((char *) psCurrentNode->pcKey);
+            free (psCurrentNode);
+            oSymTable->length--;
+            return oldval;
+        }
+        psPrevNode = psCurrentNode;
+    }
 }
 
 /*--------------------------------------------------------------------*/
