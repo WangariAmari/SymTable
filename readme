@@ -46,7 +46,7 @@ disagreements with them? Copy the splint warnings here, and express your
 disagreement after each warning. If there are no warnings, then write
 "None."
 
-
+None
 
 ------------------------------------------------------------------------
 What warnings does critTer generate on symtablelist.c, and what are your
@@ -54,7 +54,14 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
+symtablelist.c: line 102: medium priority:
+   Do you want to validate 'pvValue' through an assert?
 
+   symtablelist.c: line 144: medium priority:
+   Do you want to validate 'pvValue' through an assert?
+
+   symtablelist.c: line 263: medium priority:
+   Do you want to validate 'pvExtra' through an assert?
 
 ------------------------------------------------------------------------
 What warnings does splint generate on symtablehash.c, and what are your
