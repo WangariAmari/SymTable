@@ -224,7 +224,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey)
 
 /* If oSymTable contains a binding with key pcKey, remove that binding 
 from oSymTable and return the binding's value. Otherwise leave oSymTable
- unchanged and return NULL. */
+unchanged and return NULL. */
 
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey)
 {
@@ -256,6 +256,8 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey)
         }
         psPrevNode = psCurrentNode;
     }
+    
+    return NULL;
 }
 
 /*--------------------------------------------------------------------*/
