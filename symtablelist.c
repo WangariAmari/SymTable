@@ -31,7 +31,7 @@ struct SymTable
 {
     /* The address of the first SymTableNode */
     struct SymTableNode *psFirstNode;
-}
+};
 
 /*--------------------------------------------------------------------*/
 
@@ -62,8 +62,8 @@ SymTable_T SymTable_new(void)
 
 void SymTable_free(SymTable_T oSymTable)
 {
-    struct SymTableNode *psCurrentNode = NULL;
-    struct SymTableNode *psNextNode = NULL;
+    struct SymTableNode *psCurrentNode
+    struct SymTableNode *psNextNode;
 
     assert(oSymTable != NULL);
 
@@ -84,8 +84,8 @@ void SymTable_free(SymTable_T oSymTable)
 size_t SymTable_getLength(SymTable_T oSymTable)
 {
     size_t keyCount = 0;
-    struct SymTableNode *psCurrentNode = NULL;
-    struct SymTableNode *psNextNode = NULL;
+    struct SymTableNode *psCurrentNode;
+    struct SymTableNode *psNextNode;
 
     assert(oSymTable != NULL);
 
@@ -124,6 +124,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void
     }
 
     psNewNode->pcKey = pcKey;
+    psNewNode->pvValue = pvValue;
     psNewNode->psNextNode = oSymTable->psFirstNode;
     oSymTable->psFirstNode = psNewNode;
     return 1;
@@ -138,10 +139,13 @@ unchanged and return NULL. */
 void *SymTable_replace(SymTable_T oSymTable, const char *pcKey, const 
 void *pvValue) 
 {
-    struct SymTableNode *psCurrentNode = NULL;
-    struct SymTableNode *psNextNode = NULL;
+    struct SymTableNode *psCurrentNode;
+    struct SymTableNode *psNextNode;
 
     assert(oSymTable != NULL);
+
+    psCurrentNode = NULL;
+    psNextNode = NULL;
 
     for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
     psCurrentNode = psNextNode) 
@@ -163,8 +167,8 @@ or 0 (FALSE) if otherwise. */
 
 int SymTable_contains(SymTable_T oSymTable, const char *pcKey)
 {
-    struct SymTableNode *psCurrentNode = NULL;
-    struct SymTableNode *psNextNode = NULL;
+    struct SymTableNode *psCurrentNode;
+    struct SymTableNode *psNextNode;
 
     assert(oSymTable != NULL);
 
@@ -187,8 +191,8 @@ or NULL if no such binding exists. */
 
 void *SymTable_get(SymTable_T oSymTable, const char *pcKey)
 {
-    struct SymTableNode *psCurrentNode = NULL;
-    struct SymTableNode *psNextNode = NULL;
+    struct SymTableNode *psCurrentNode;
+    struct SymTableNode *psNextNode;
 
     assert(oSymTable != NULL);
 
