@@ -62,7 +62,7 @@ SymTable_T SymTable_new(void)
 
 void SymTable_free(SymTable_T oSymTable)
 {
-    struct SymTableNode *psCurrentNode
+    struct SymTableNode *psCurrentNode;
     struct SymTableNode *psNextNode;
 
     assert(oSymTable != NULL);
@@ -143,16 +143,15 @@ void *pvValue)
     struct SymTableNode *psNextNode;
 
     assert(oSymTable != NULL);
-
-    psCurrentNode = NULL;
-    psNextNode = NULL;
+    assert(pcKey != NULL);
 
     for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
     psCurrentNode = psNextNode) 
     {
-        if (psCurrentNode->pcKey == pcKey) {
-            return psCurrentNode->pvValue;
-            psCurrentNode = psCurrentNode->pvValue;
+        if (strcmp(psCurrentNode->pcKey, pcKey) == 0) {
+            void *oldval = (void *) psCurrentNode->pvValue;
+            psCurrentNode->pvValue = pvValue;
+            return oldval;
         }
         psNextNode = psCurrentNode->psNextNode;
     }
