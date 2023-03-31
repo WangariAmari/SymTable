@@ -9,7 +9,7 @@
 
 /* Declaration for a global variable that stores the bucket counts */
 
-const size_t uBucketCounts[];
+const size_t uBucketCounts[8];
 
 /* A SymTable is an unordered collection of bindings. A binding 
 consists of a key and a value. */
