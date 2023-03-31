@@ -92,16 +92,16 @@ void SymTable_free(SymTable_T oSymTable)
 {
     struct SymTableNode *psCurrentNode;
     struct SymTableNode *psNextNode;
-
+    size_t i;
     assert(oSymTable != NULL);
 
-    for (size_t i = 0; i < oSymTable->uBucketCount; i++) 
+    for (i = 0; i < oSymTable->uBucketCount; i++) 
     {
-        for (psCurrentNode = oSymTable->psFirstNode; psCurrentNode != NULL; 
+        for (psCurrentNode = oSymTable->psFirstNode[i]; psCurrentNode != NULL; 
         psCurrentNode = psNextNode) 
         {
             psNextNode = psCurrentNode->psNextNode;
-            free(psCurrentNode->pcKey);
+            free((char *) psCurrentNode->pcKey);
             free(psCurrentNode);
         }
     }
@@ -132,11 +132,12 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void
 *pvValue) 
 {
     struct SymTableNode *psNewNode;
+    size_t hashcode;
 
     assert (oSymTable != NULL);
     assert (pcKey != NULL);
 
-    size_t hashcode = SymTable_hash(pcKey, oSymTable->uBucketCount);
+    hashcode = SymTable_hash(pcKey, oSymTable->uBucketCount);
 
     if (SymTable_contains(oSymTable, pcKey)) {
         return 0;
@@ -177,11 +178,12 @@ void *pvValue)
 {
     struct SymTableNode *psCurrentNode;
     struct SymTableNode *psNextNode;
+    size_t hashcode;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
-    size_t hashcode = SymTable_hash(pcKey, oSymTable->uBucketCount);
+    hashcode = SymTable_hash(pcKey, oSymTable->uBucketCount);
 
     for (psCurrentNode = oSymTable->psFirstNode[hashcode]; psCurrentNode != NULL; 
     psCurrentNode = psNextNode) 
@@ -206,11 +208,12 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey)
 {
     struct SymTableNode *psCurrentNode;
     struct SymTableNode *psNextNode;
+    size_t hashcode;
 
     assert(oSymTable != NULL);
     assert (pcKey != NULL);
 
-    size_t hashcode = SymTable_hash(pcKey, oSymTable->uBucketCount);
+    hashcode = SymTable_hash(pcKey, oSymTable->uBucketCount);
 
     for (psCurrentNode = oSymTable->psFirstNode[hashcode]; psCurrentNode != NULL; 
     psCurrentNode = psNextNode) 
@@ -233,11 +236,12 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey)
 {
     struct SymTableNode *psCurrentNode;
     struct SymTableNode *psNextNode;
+    size_t hashcode;
 
     assert(oSymTable != NULL);
     assert (pcKey != NULL);
 
-    size_t hashcode = SymTable_hash(pcKey, oSymTable->uBucketCount);
+    hashcode = SymTable_hash(pcKey, oSymTable->uBucketCount);
 
     for (psCurrentNode = oSymTable->psFirstNode[hashcode]; psCurrentNode != NULL; 
     psCurrentNode = psNextNode) 
@@ -264,11 +268,12 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey)
     /* we don't just free node, also key */
     struct SymTableNode *psCurrentNode;
     struct SymTableNode *psPrevNode = NULL;
+    size_t hashcode;
 
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
-    size_t hashcode = SymTable_hash(pcKey, oSymTable->uBucketCount);
+    hashcode = SymTable_hash(pcKey, oSymTable->uBucketCount);
 
     for (psCurrentNode = oSymTable->psFirstNode[hashcode]; psCurrentNode != NULL; 
     psCurrentNode = psCurrentNode->psNextNode) 
@@ -303,13 +308,13 @@ void SymTable_map(SymTable_T oSymTable, void (*pfApply)(const char
 *pcKey, void *pvValue, void *pvExtra), const void *pvExtra)
 {
     struct SymTableNode *psCurrentNode;
-
+    size_t i;
     assert(oSymTable != NULL);
     assert(pfApply != NULL);    
 
-    for (size_t i = 0; i < oSymTable->uBucketCount; i++) 
+    for (i = 0; i < oSymTable->uBucketCount; i++) 
     {
-        for (psCurrentNode = oSymTable->psFirstNode[hashcode]; psCurrentNode != NULL; 
+        for (psCurrentNode = oSymTable->psFirstNode[i]; psCurrentNode != NULL; 
         psCurrentNode = psCurrentNode->psNextNode) 
         {
             (*pfApply) ((char *) psCurrentNode->pcKey, (void*) psCurrentNode->pvValue, (void*) pvExtra);
