@@ -10,6 +10,13 @@
 
 /*--------------------------------------------------------------------*/
 
+/* Declaration for a global variable that stores the bucket counts */
+
+const size_t uBucketCounts[] = {509, 1021, 2039, 4093, 8191, 16381, 
+32749, 65521};
+
+/*--------------------------------------------------------------------*/
+
 /* Each binding is stored in a SymTableNode. SymtableNodes are linked 
 to form a list. */
 
@@ -78,8 +85,8 @@ SymTable_T SymTable_new(void)
         return NULL;
     }
 
-    oSymTable->psFirstNode = calloc(509, sizeof(struct SymTableNode*));
-    oSymTable->uBucketCount = 509;
+    oSymTable->psFirstNode = calloc(uBucketCounts[0], sizeof(struct SymTableNode*));
+    oSymTable->uBucketCount = uBucketCounts[0];
 
     return oSymTable;
 }
