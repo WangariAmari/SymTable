@@ -7,6 +7,10 @@
 #define SYMTABLE_INCLUDED
 #include <stddef.h>
 
+/* Declaration for a global variable that stores the bucket counts */
+
+const size_t uBucketCounts[];
+
 /* A SymTable is an unordered collection of bindings. A binding 
 consists of a key and a value. */
 struct SymTable;
